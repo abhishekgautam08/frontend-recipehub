@@ -63,7 +63,7 @@ function LoginContainer() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+           Login
           </Typography>
           <Box
             component="form"
@@ -106,7 +106,7 @@ function LoginContainer() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
