@@ -14,14 +14,15 @@ import MenuItem from "@mui/material/MenuItem";
 import { useRouter } from "next/router";
 import { logoutUser } from "@/api/user";
 import Link from "next/link";
+import { useState } from "react";
 
 function NavbarComponent({ name }) {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const router = useRouter();
 
-  const firstLetter = name.charAt(0)
+  const firstLetter = name.charAt(0);
 
   const logout = () => {
     logoutUser();
@@ -94,18 +95,18 @@ function NavbarComponent({ name }) {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <Link href="/wishlist">
-                <MenuItem
-                  onClick={handleCloseNavMenu}
-                  sx={{
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link
+                  style={{
                     fontWeight: "bold",
                     color: "black",
                     textDecoration: "none",
                   }}
+                  href="/wishlist"
                 >
                   Wishlist
-                </MenuItem>
-              </Link>{" "}
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -127,19 +128,27 @@ function NavbarComponent({ name }) {
             RecipeHub
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{
-                my: 2,
+            <Link
+              href="/wishlist"
+              style={{
                 color: "black",
-                display: "block",
                 fontWeight: "bold",
                 textDecoration: "none",
               }}
-              href="/wishlist"
             >
-              Wishlist
-            </Button>
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{
+                  my: 2,
+                  color: "black",
+                  display: "block",
+                  fontWeight: "bold",
+                  textDecoration: "none",
+                }}
+              >
+                Wishlist
+              </Button>
+            </Link>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

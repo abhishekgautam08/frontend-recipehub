@@ -51,7 +51,16 @@ function LoginContainer() {
   return (
     <>
       {isSubmitting ? (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
+          height: 'calc(100vh - 70px)'
+        }}>
+
         <SpinnerComponent />
+        </div>
       ) : (
         <Container component="main" maxWidth="xs">
           <CssBaseline />

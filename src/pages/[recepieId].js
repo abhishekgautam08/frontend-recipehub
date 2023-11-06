@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
@@ -24,9 +23,9 @@ import { COOKIE_TOKEN_KEY } from "@/utils/constants";
 import { whoAmI } from "@/api/user";
 import Cookies from "js-cookie";
 
-export default function RecepieDetails() {
+export default function RecepieDetails({ name }) {
   const [recepieDetail, setRecepieDetail] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
   const recepieId = router.query.recepieId;
@@ -41,32 +40,38 @@ export default function RecepieDetails() {
     const result = await particularRecipeData(recepieId);
 
     setRecepieDetail(result);
-        setIsLoading(false);
-
+    setIsLoading(false);
   }
 
   const saveDetails = async (recepieDetail) => {
     try {
-    const response = await saveRecipeData(recepieDetail);
-
-    if (response.status === 200) {
-      toast("Recipe saved in wishlist", { type: "success" });
-    } else if (response.status === 409) {
-      
-      toast("Recipe is already in the wishlist.", { type: "warning" });
-    } 
-  } catch (error) {
-    // Handle any errors that occur during the API request
-    toast("Error ", { type: "error" });
-    console.error('Error:', error);
-  }
-};
+      const response = await saveRecipeData(recepieDetail);
+      if (response.status === 200) {
+        toast("Recipe saved in wishlist", { type: "success" });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      if (error && error.response && error.response.status == 409) {
+        toast("Recipe is already in the wishlist.", { type: "success" });
+      }
+    }
+  };
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent name={name} />
       {isLoading ? (
-        <SpinnerComponent />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100vw",
+            height: "calc(100vh - 70px)",
+          }}
+        >
+          <SpinnerComponent />
+        </div>
       ) : (
         <Card sx={{ margin: "30px", padding: "20px" }} key={recepieDetail.id}>
           {/* <CardActionArea> */}
@@ -78,41 +83,47 @@ export default function RecepieDetails() {
             sx={{ objectFit: "contain", margin: "10px" }}
           />
           <CardContent>
-            <Typography variant="h6" component="div" textAlign="center">
+            <Typography
+              variant="h5"
+              component="div"
+              textAlign="center"
+              fontWeight="bold"
+            >
               {recepieDetail.title}
             </Typography>
             <Typography variant="subtitle1" component="div" textAlign="center">
-              <span style={{ fontSize: "24px", fontWeight: "bold" }}>
+              <span style={{ fontSize: "20px", fontWeight: "bold" }}>
                 Preparation Time- &nbsp; &nbsp;
               </span>
               {recepieDetail.readyInMinutes} min
             </Typography>
             <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-              {/*  <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={12} lg={12} sx={{ textAlign: "center" }}>
                   <Typography
-                    sx={{ mt: 4, mb: 2 }}
+                    sx={{ mt: 5, mb: 2 }}
                     variant="h4"
                     component="div"
                   >
                     Ingredients Name & Amount(unit)
                   </Typography>
 
-                  {recepieDetail.extendedIngredients.map((page) => (
-                    <List key={page.id}>
+                  {recepieDetail.extendedIngredients.map((ingredients) => (
+                    <List key={ingredients.id}>
                       <ListItem>
                         <ListItemIcon>
-                          <CircleIcon />
+                          {" "}
+                          <CircleIcon fontSize="10px" />{" "}
                         </ListItemIcon>
-                        <ListItemText>
-                          {page.name} -{page.amount}
-                          {page.unit}
+                        <ListItemText style={{ textAlign: "left" }}>
+                          {ingredients.amount} &nbsp;
+                          {ingredients.unit} &nbsp;-&nbsp; {ingredients.name}
                         </ListItemText>
                       </ListItem>
                     </List>
-                  ))} 
+                  ))}
                 </Grid>
-              </Grid>    */}
+              </Grid>
             </Box>
             <Typography
               gutterBottom
@@ -132,6 +143,7 @@ export default function RecepieDetails() {
               variant="subtitle1"
               component="div"
               textAlign="center"
+              margin={5}
             >
               <span style={{ fontSize: "24px", fontWeight: "bold" }}>
                 Instructions-&nbsp; &nbsp;
@@ -167,7 +179,6 @@ export default function RecepieDetails() {
   );
 }
 
-
 export async function getServerSideProps(context) {
   const authToken = context.req.cookies[COOKIE_TOKEN_KEY];
 
@@ -196,7 +207,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      user: myDetails.user,
+      name: myDetails.user.name,
     },
   };
 }

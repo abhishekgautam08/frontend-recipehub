@@ -1,14 +1,15 @@
 import { whoAmI } from "@/api/user";
+import NavbarComponent from "@/components/Navbar/Navbar";
 import WishlistContainer from "@/containers/Wishlist";
 import { COOKIE_TOKEN_KEY } from "@/utils/constants";
 import Cookies from "js-cookie";
 
-
-const Wishlist = () => {
- 
+const Wishlist = ({ name }) => {
   return (
-  <>
-<WishlistContainer/>
+    <>
+      <NavbarComponent name={name} />
+
+      <WishlistContainer />
     </>
   );
 };
@@ -41,7 +42,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      user: myDetails.user,
+      name: myDetails.user.name,
     },
   };
 }
