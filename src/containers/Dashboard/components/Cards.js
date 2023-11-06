@@ -7,6 +7,7 @@ import {
   CardActionArea,
   CardActions,
   FormControl,
+  Grid,
   Input,
   InputAdornment,
 } from "@mui/material";
@@ -16,6 +17,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Search } from "@mui/icons-material";
 import { debounce } from "@/utils/helper";
+import InfoIcon from "@mui/icons-material/Info";
+import FavoriteIcon from "@mui/icons-material/Favorite"; 
 
 const Cards = () => {
   const router = useRouter();
@@ -43,19 +46,28 @@ const Cards = () => {
     setCuisine(value);
   };
 
+  
+  
   return (
     <>
       {isLoading ? (
         <SpinnerComponent />
       ) : (
         <>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "20px",
+            }}
+          >
             <FormControl variant="standard">
               {/* <InputLabel htmlFor="input-with-icon-adornment">
                 With a start adornment
               </InputLabel> */}
               <Input
                 id="search-recepie"
+                placeholder="Search Your cuisine "
                 startAdornment={
                   <InputAdornment position="start">
                     <Search />
@@ -65,40 +77,57 @@ const Cards = () => {
               />
             </FormControl>
           </div>
-          {recipeResults &&
-            recipeResults.length > 0 &&
-            recipeResults.map((data) => (
-              <Card sx={{ maxWidth: 345, margin: "30px" }} key={data.id}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={data.image}
-                    alt="recipe pic"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {data.title}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button
-                    size="small"
-                    color="primary"
-                    onClick={() => viewDetails(data)}
+          <Grid container spacing={2}>
+            {recipeResults &&
+              recipeResults.length > 0 &&
+              recipeResults.map((data) => (
+                <Grid item xs={12} sm={6} md={4} key={data.id}>
+                  <Card
+                    sx={{ maxWidth: 300, height: 350, margin: "30px" }}
+                    key={data.id}
                   >
-                    View Details
-                  </Button>
-                  <Button size="small" color="primary">
-                    Add to Saved recipe
-                  </Button>
-                </CardActions>
-              </Card>
-            ))}
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={data.image}
+                        alt="recipe pic"
+                        sx={{objectFit:"contain"}}
+                      />
+                    </CardActionArea>
+                    <CardContent>
+                      <Typography gutterBottom variant="h6" component="div" textAlign="center">
+                        {data.title}
+                      </Typography>
+                    </CardContent>
+                    <CardActions
+                      sx={{ display: "flex", justifyContent: "Center" }}
+                    >
+                      <Button
+                        color="inherit"
+                        onClick={() => viewDetails(data)}
+                        sx={{ cursor: "pointer" }}
+                      >
+                      Get Recipe
+                      </Button>
+                     
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+          </Grid>
 
           {recipeResults && recipeResults.length == 0 && (
-            <div>No results found</div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "40px",
+                fontWeight: "bold",
+              }}
+            >
+              No results found
+            </div>
           )}
         </>
       )}

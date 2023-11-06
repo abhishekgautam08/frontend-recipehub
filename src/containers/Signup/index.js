@@ -12,6 +12,9 @@ import { useState } from "react";
 import { SignUpUser } from "@/api/user";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+import { COOKIE_TOKEN_KEY } from "@/utils/constants";
+import SpinnerComponent from "@/components/Spinner/Spinner";
 
 const SignUpContainer = () => {
     const router = useRouter();
@@ -25,11 +28,9 @@ const SignUpContainer = () => {
 const handleSubmit = async (e) => {
   setIsSubmitting(true);
   e.preventDefault();
-  console.log({credentials})
   const userDetails = await SignUpUser(
-    credentials.name,
-    credentials.email,
-    credentials.password
+    credentials
+   
   );
   const token = userDetails?.token;
 
@@ -51,6 +52,9 @@ const handleSubmit = async (e) => {
 
   return (
     <>
+    {isSubmitting ? (
+        <SpinnerComponent />
+      ) : (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -132,6 +136,7 @@ const handleSubmit = async (e) => {
           </Box>
         </Box>
       </Container>
+      )}
     </>
   );
 };

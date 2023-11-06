@@ -1,13 +1,43 @@
-import { API_BASE_URL } from "@/utils/constants";
+import { API_BASE_URL, COOKIE_TOKEN_KEY } from "@/utils/constants";
 import axios from "axios";
+import Cookies from "js-cookie";
+
+
+  const token = Cookies.get(COOKIE_TOKEN_KEY);
+
 
 export const recipesData = async (cuisine = '') => {
   const url = `${API_BASE_URL}/recipes?cuisine=${cuisine}`;
-  const json = await axios.get(url);
+  const json = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Assuming you're using a Bearer token
+      }});
   return json.data;
 };
 export const particularRecipeData = async (recipeId) => {
   const url = `${API_BASE_URL}/recipes/${recipeId}`;
-  const json = await axios.post(url);
+  const json = await axios.post(url, null, {
+    headers: {
+      Authorization: `Bearer ${token}`, // Assuming you're using a Bearer token
+    },
+  });
+  return json.data;
+};
+export const saveRecipeData = async (recepieDetail) => {
+  const url = `${API_BASE_URL}/recipes`;
+  const json = await axios.post(url, recepieDetail, {
+    headers: {
+      Authorization: `Bearer ${token}`, // Assuming you're using a Bearer token
+    },
+  });
+  return json.data;
+};
+export const getSaveRecipeData = async () => {
+  const url = `${API_BASE_URL}/recipes/wishlist`;
+  const json = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`, // Assuming you're using a Bearer token
+    },
+  });
   return json.data;
 };
