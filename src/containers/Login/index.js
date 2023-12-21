@@ -51,15 +51,16 @@ function LoginContainer() {
   return (
     <>
       {isSubmitting ? (
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100vw',
-          height: 'calc(100vh - 70px)'
-        }}>
-
-        <SpinnerComponent />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100vw",
+            height: "calc(100vh - 70px)",
+          }}
+        >
+          <SpinnerComponent />
         </div>
       ) : (
         <Container component="main" maxWidth="xs">
@@ -124,6 +125,13 @@ function LoginContainer() {
                   </Link>
                 </Grid>
               </Grid>
+
+              <Typography variant="body2" color="text.secondary" align="center">
+                <br />
+                <br />
+                Note:- The backend is deployed on a free server, so it takes
+                some time to load the First request
+              </Typography>
             </Box>
           </Box>
         </Container>
