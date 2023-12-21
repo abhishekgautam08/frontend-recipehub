@@ -116,7 +116,7 @@ const WishlistContainer = () => {
                 height: "calc(100vh - 70px)",
               }}
             >
-              No results found
+              Empty Wishlist
             </div>
           )}
         </>
