@@ -1,18 +1,18 @@
-import Head from "next/head";
 import { whoAmI } from "@/api/user";
-import Cookies from "js-cookie";
+import WishlistContainer from "@/containers/Wishlist";
 import { COOKIE_TOKEN_KEY } from "@/utils/constants";
-import Dashboard from "@/containers/Dashboard";
+import Cookies from "js-cookie";
+import React from "react";
 
-export default function Home({name}) {
+const wishlist = ({ name }) => {
   return (
     <>
-      <main>
-        <Dashboard name={name} />
-      </main>
+      <WishlistContainer name={name} />
     </>
   );
-}
+};
+
+export default wishlist;
 
 export async function getServerSideProps(context) {
   const authToken = context.req.cookies[COOKIE_TOKEN_KEY];
@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         // permanent: true,
-        destination: "/auth",
+        destination: "/login",
       },
       props: {},
     };
@@ -34,7 +34,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         // permanent: true,
-        destination: "/auth",
+        destination: "/login",
       },
       props: {},
     };

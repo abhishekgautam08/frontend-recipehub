@@ -1,18 +1,18 @@
-import Head from "next/head";
+import React from "react";
+import RecipeById from "@/containers/Dashboard/Components/recipeById";
 import { whoAmI } from "@/api/user";
 import Cookies from "js-cookie";
 import { COOKIE_TOKEN_KEY } from "@/utils/constants";
-import Dashboard from "@/containers/Dashboard";
 
-export default function Home({name}) {
+const RecepieDetails = ({name}) => {
   return (
     <>
-      <main>
-        <Dashboard name={name} />
-      </main>
+      <RecipeById name={name} />
     </>
   );
-}
+};
+
+export default RecepieDetails;
 
 export async function getServerSideProps(context) {
   const authToken = context.req.cookies[COOKIE_TOKEN_KEY];
@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         // permanent: true,
-        destination: "/auth",
+        destination: "/login",
       },
       props: {},
     };
@@ -34,7 +34,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         // permanent: true,
-        destination: "/auth",
+        destination: "/login",
       },
       props: {},
     };
