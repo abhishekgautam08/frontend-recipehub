@@ -16,12 +16,12 @@ import { useRouter } from "next/router";
 import { logoutUser } from "@/api/user"; // Assuming you have a module for user-related API calls
 import { FaRegHeart } from "react-icons/fa";
 
-function NavbarComponent({name}) {
+function NavbarComponent({ name }) {
   const Router = useRouter();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-    const firstLetter = name.charAt(0).toUpperCase();
+  const firstLetter = name.charAt(0).toUpperCase();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -123,7 +123,7 @@ function NavbarComponent({name}) {
           >
             RecipeHub
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent:"end", marginRight:"10px" }}>
             <FaRegHeart size={30} onClick={handleCloseNavMenu} />
           </Box>
 

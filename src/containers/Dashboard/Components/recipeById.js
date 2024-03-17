@@ -36,7 +36,6 @@ const RecipeById = ({ name }) => {
 
   async function fetchRecepieDetails(recepieId) {
     const result = await particularRecipeData(recepieId);
-    console.log({ result });
     setRecepieDetail(result);
     setIsLoading(false);
   }
@@ -145,7 +144,7 @@ const RecipeById = ({ name }) => {
                 dangerouslySetInnerHTML={{ __html: recepieDetail.summary }}
               />
             </Typography>
-            {/* <Typography
+            <Typography
               gutterBottom
               variant="subtitle1"
               component="div"
@@ -157,9 +156,35 @@ const RecipeById = ({ name }) => {
               </span>
 
               <span
-                dangerouslySetInnerHTML={{ __html: recepieDetail.instructions }}
+                dangerouslySetInnerHTML={{
+                  __html: recepieDetail.instructions,
+                }}
               />
-            </Typography> */}
+            </Typography>
+            {/* <Typography
+              gutterBottom
+              variant="subtitle1"
+              component="div"
+              textAlign="left"
+              margin={5}
+            >
+              <span style={{ fontSize: "24px", fontWeight: "bold" }}>
+                Steps-
+              </span>
+            </Typography>
+            {recepieDetail.analyzedInstructions.steps.map((steps) => (
+              <List key={steps.id}>
+                <ListItem>
+                  <ListItemIcon>
+                    
+                    <p>Step:-{steps.number}</p>
+                  </ListItemIcon>
+                  <ListItemText >
+                    {steps.step} 
+                  </ListItemText>
+                </ListItem>
+              </List>
+            ))} */}
           </CardContent>
           <CardActions sx={{ display: "flex", justifyContent: "end" }}>
             <Button
@@ -172,7 +197,7 @@ const RecipeById = ({ name }) => {
             <Button
               color="inherit"
               onClick={() => saveDetails(recepieDetail)}
-              sx={{ cursor: "pointer" ,border:"3px solid" }}
+              sx={{ cursor: "pointer", border: "3px solid" }}
             >
               Add to Saved recipe
             </Button>

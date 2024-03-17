@@ -22,7 +22,7 @@ export const particularRecipeData = async (recipeId) => {
   const url = `${API_BASE_URL}/recipes/${recipeId}`;
   const json = await axios.post(url, null, {
     headers: {
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
   });
   return json.data;
@@ -31,7 +31,7 @@ export const saveRecipeData = async (recepieDetail) => {
   const url = `${API_BASE_URL}/recipes`;
   const json = await axios.post(url, recepieDetail, {
     headers: {
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
   });
   return json;
@@ -40,16 +40,16 @@ export const getSaveRecipeData = async () => {
   const url = `${API_BASE_URL}/recipes/wishlist`;
   const json = await axios.get(url, {
     headers: {
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
   });
   return json.data;
 };
 export const getRemoveRecipeData = async (data) => {
-  const url = `${API_BASE_URL}/recipes/${data.recipeId}/remove`;
+  const url = `${API_BASE_URL}/recipes/${data._id}/remove`;
   const json = await axios.get(url, {
     headers: {
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
   });
   return json.data;

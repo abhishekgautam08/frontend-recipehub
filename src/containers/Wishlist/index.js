@@ -19,7 +19,6 @@ const WishlistContainer = ({ name }) => {
   const [recipeResults, setRecipeResults] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -35,8 +34,17 @@ const WishlistContainer = ({ name }) => {
   };
 
   const removeDetails = async (data) => {
-    await getRemoveRecipeData(data);
-    router.reload();
+    try {
+      await getRemoveRecipeData(data);
+      toast("Recipe Remove", {
+        type: "success",
+      });
+      router.reload();
+    } catch {
+      toast("Error ", {
+        type: "error",
+      });
+    }
   };
 
   return (
@@ -56,57 +64,65 @@ const WishlistContainer = ({ name }) => {
         </div>
       ) : (
         <>
-          <Grid container spacing={2}>
-            {recipeResults &&
-              recipeResults.length > 0 &&
-              recipeResults.map((data) => (
-                <Grid item xs={12} sm={6} md={4} lg={4} key={data.id}>
-                  <Card
-                    sx={{ maxWidth: 300, height: 350, margin: "30px" }}
-                    // key={data.id}
-                  >
-                    <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={data.imageUrl}
-                        alt="recipe pic"
-                        sx={{ objectFit: "contain" }}
-                      />
-                    </CardActionArea>
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                        textAlign="center"
-                      >
-                        {data.title}
-                      </Typography>
-                    </CardContent>
-                    <CardActions
-                      sx={{ display: "flex", justifyContent: "Center" }}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "20px",
+              marginBottom: "40px",
+            }}
+          >
+            <Grid container spacing={2}>
+              {recipeResults &&
+                recipeResults.length > 0 &&
+                recipeResults.map((data) => (
+                  <Grid item xs={12} sm={6} md={4} lg={4} key={data._id}>
+                    <Card
+                      sx={{ maxWidth: 300, height: 350, margin: "30px" }}
+                      key={data._id}
                     >
-                      <Button
-                        color="inherit"
-                        onClick={() => viewDetails(data)}
-                        sx={{ cursor: "pointer", border: "3px solid" }}
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image={data.imageUrl}
+                          alt="recipe pic"
+                          sx={{ objectFit: "contain" }}
+                        />
+                      </CardActionArea>
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="div"
+                          textAlign="center"
+                        >
+                          {data.title}
+                        </Typography>
+                      </CardContent>
+                      <CardActions
+                        sx={{ display: "flex", justifyContent: "Center" }}
                       >
-                        Get Recipe
-                      </Button>
-                      <Button
-                        color="inherit"
-                        onClick={() => removeDetails(data)}
-                        sx={{ cursor: "pointer", border: "3px solid" }}
-                      >
-                        Remove Recipe
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-          </Grid>
-
+                        <Button
+                          color="inherit"
+                          onClick={() => viewDetails(data)}
+                          sx={{ cursor: "pointer", border: "3px solid" }}
+                        >
+                          Get Recipe
+                        </Button>
+                        <Button
+                          color="inherit"
+                          onClick={() => removeDetails(data)}
+                          sx={{ cursor: "pointer", border: "3px solid" }}
+                        >
+                          Remove Recipe
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+            </Grid>
+          </div>
           {recipeResults && recipeResults.length == 0 && (
             <div
               style={{
